@@ -12,7 +12,7 @@ The system follows a standard data pipeline for security logging:
 5. **Visualization:** **Kibana** provides the final analytical dashboard.
 
 > **Architecture Diagram:**
-> ![Architecture Diagram](./images/elk-diagram.png)
+> ![Architecture Diagram](./images/ELK-diagram.png)
 ## Key Features & Analytics
 The dashboard is designed to answer critical security questions:
 * **Who is the Attacker?** (Top Source IPs)
@@ -29,7 +29,7 @@ The dashboard is designed to answer critical security questions:
 - `user`: The targeted username.
 
 ## Final SOC Dashboard
-![SOC Dashboard Preview](./images/final-dashboard.png)
+![SOC Dashboard Preview](./images/Dashboard.png)
 
 ## How to Use
 1. Clone this repository.
