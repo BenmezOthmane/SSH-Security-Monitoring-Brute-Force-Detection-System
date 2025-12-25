@@ -28,6 +28,8 @@ The dashboard is designed to answer critical security questions:
 - `ssh_status`: Whether the attempt failed or succeeded.
 - `user`: The targeted username.
 
+> **View the full configuration:** > You can find the complete Logstash configuration file used in this project [here](./logstash-ssh.conf).
+
 ## Final SOC Dashboard
 ![SOC Dashboard Preview](./images/Dashboard.png)
 
