@@ -31,7 +31,7 @@ The dashboard is designed to answer critical security questions:
 > **View the full configuration:** > You can find the complete Logstash configuration file used in this project [here](./logstash-ssh.conf).
 
 ## Final SOC Dashboard
-![SOC Dashboard Preview](./images/Dashboard.png)
+![SOC Dashboard Preview](Images/Dashboard.png)
 
 ## How to Use
 1. Clone this repository.
