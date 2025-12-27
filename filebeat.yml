@@ -1,0 +1,59 @@
+# ============================== Filebeat Inputs ===============================
+filebeat.inputs:
+- type: log
+  id: ssh-auth-logs
+  enabled: true
+  paths:
+    - /var/log/auth.log
+  fields:
+    level: debug
+    review: 1
+    log_type: ssh_auth
+    service: ssh
+  fields_under_root: true
+  close_inactive: 5m
+  clean_removed: true
+
+# ============================== Filebeat modules ==============================
+filebeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+  reload.enabled: false
+
+# ================================ Interal Logging =============================
+logging.level: info
+logging.to_files: true
+logging.files:
+  path: /var/log/filebeat
+  name: filebeat
+  keepfiles: 7
+  permissions: 0640
+
+# ================================= Dashboards =================================
+setup.kibana:
+  host: "https://[YOUR_SERVER_IP]:5601"
+  ssl.verification_mode: certificate
+  ssl.certificate_authorities: ["/etc/filebeat/certs/ca.crt"]
+  ssl.enabled: true
+  # ssl.ca_trusted_fingerprint: "[PROTECTED_FINGERPRINT_HASH]"
+  username: "elastic"
+  password: "[REDACTED_PASSWORD]"
+
+# ================================== Outputs ===================================
+
+# ------------------------------ Logstash Output -------------------------------
+output.logstash:
+  hosts: ["192.168.192.3:5044"]
+  ssl.enabled: true
+  # ssl.certificate_authorities: ["/etc/logstash/certs/ca.crt"]
+
+# ================================= Processors =================================
+processors:
+  - add_host_metadata:
+      when.not.contains.tags: forwarded
+  - add_cloud_metadata: ~
+  - add_docker_metadata: ~
+  - add_kubernetes_metadata: ~
+
+# ========================== Elasticsearch template setting =====================
+setup.template.settings:
+  index.number_of_shards: 1
