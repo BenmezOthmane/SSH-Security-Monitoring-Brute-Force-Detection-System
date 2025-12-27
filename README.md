@@ -13,6 +13,32 @@ The system follows a standard data pipeline for security logging:
 
 > **Architecture Diagram:**
 > ![Architecture Diagram](Images/ELK-diagram.png)
+
+## 🛡️ Detection Capabilities & Troubleshooting
+Building a SOC isn't just about connecting tools; it's about solving data gaps. Below are the key technical milestones achieved:
+
+### 1. Data Validation (The 568 Logs Milestone)
+Before creating rules, I validated the data ingestion in Kibana **Discover**. This ensured that the 568 logs from the Kali Linux attack were correctly indexed with fields like `event.outcome`.
+![Kibana Discover Validation](Images/image_6356cb.png)
+
+### 2. Fixing Index Pattern Mismatches
+**Challenge:** The detection engine couldn't find the logs due to static naming.
+**Solution:** I implemented a Wildcard Index Pattern `ssh-security-*`. This allowed the SIEM to dynamically monitor all current and future logs.
+![Index Pattern Wildcard Fix](Images/image_6365af.png)
+
+### 3. Overcoming Time-Drift with Backfill
+**Challenge:** Alerts weren't showing because the attack happened in the past (Dec 24).
+**Solution:** I configured the **Look-back time** to **4 Days**. This "backfilled" the detection engine, forcing it to analyze historical data and generate the missing alerts.
+![SIEM Look-back Configuration](Images/image_634bc4.png)
+
+## 🚨 Final Security Alerts Dashboard
+The result is a fully functional SIEM rule that monitors SSH traffic. When a brute-force attack is detected, the system triggers a **High Severity Alert**.
+
+- **Detection Query:** `event.outcome : "failure"`
+- **Rule Status:** `Succeeded` (Real-time Monitoring Active)
+
+![Final Security Alerts Table](/Alerts Summary.png)
+
 ## Key Features & Analytics
 The dashboard is designed to answer critical security questions:
 * **Who is the Attacker?** (Top Source IPs)
@@ -20,25 +46,19 @@ The dashboard is designed to answer critical security questions:
 * **What is the attack pattern?** (Advanced Heatmap Timeline)
 * **Was the system breached?** (Success vs. Failure Ratio)
 
-## Technical Challenges & Solutions
-### Grok Parsing Refinement
-**Challenge:** Initially, the logs showed `_grokparsefailure` due to varying log formats (standard SSH vs. PAM module logs).
-**Solution:** I engineered a multi-pattern Grok filter in Logstash to accurately extract:
-- `source.ip`: Remote IP address of the attacker.
-- `ssh_status`: Whether the attempt failed or succeeded.
-- `user`: The targeted username.
-
-> **View the full configuration:** > You can find the complete Logstash configuration file used in this project [here](./logstash-ssh.conf).
-
-## Final SOC Dashboard
-![SOC Dashboard Preview](Images/Dashboard.png)
-
 ## How to Use
 1. Clone this repository.
 2. Install the ELK Stack (Docker or Manual).
-3. Copy the `logstash-ssh.conf` file to your Logstash configuration directory.
+3. Copy the `logstash.conf` file to your Logstash configuration directory.
 4. Import the provided Kibana Dashboard (NDJSON).
 5. Start monitoring your SSH logs in real-time!
+
+## Future Work
+🔹Add SOAR automation (IP blocking)
+🔹 Integrate Wazuh (HIDS)
+🔹 Add Suricata (NIDS)
+🔹 Case management with TheHive
+
 ---
 **Author:** [Othmane Benmezian]
 **Focus:** Cybersecurity | SIEM | Threat Hunting
