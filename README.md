@@ -6,7 +6,7 @@ This project implements a comprehensive **Security Operations Center (SOC)** env
 ## System Architecture (Secure Pipeline)
 The pipeline is fully secured using **SSL/TLS encryption** to ensure data integrity.
 
-![Architecture Diagram](Images/Architecture diagram.png)
+![Architecture Diagram](Images/Architecture%20diagram.png))
 
 1.  **Data Source:** Linux Server logs gathered from `/var/log/auth.log`.
 2.  **Secure Shipping:** **Filebeat** ships logs via **SSL/TLS** to Logstash.
