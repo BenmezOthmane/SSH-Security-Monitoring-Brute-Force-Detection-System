@@ -1,5 +1,7 @@
-## SSH Security Monitoring & Brute-Force Detection (ELK Stack)
+# SSH Security Monitoring & Brute‑Force Detection System
+
 [![License: MIT](https://img.shields.io/github/license/BenmezOthmane/SSH-Security-Monitoring-Brute-Force-Detection-System)](LICENSE)
+
 
 ## Project Overview
 This project implements a comprehensive **Security Operations Center (SOC)** environment designed to monitor, detect, and analyze SSH Brute-Force attacks in real-time. By leveraging the **ELK Stack**, I transformed raw system logs into an actionable security intelligence platform.
