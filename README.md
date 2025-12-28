@@ -81,4 +81,4 @@ I developed a structured protocol for handling these high-severity alerts:
 
 ---
 **Author:** [Othmane Benmezian]
-Focus: Cybersecurity & SOC Operations 🛠️ Skills Demonstrated: SIEM (ELK Stack) | Log Analysis | Threat Detection | Incident Response (IR)
+Focus: Cybersecurity & SOC Operations | Skills Demonstrated: SIEM (ELK Stack) | Log Analysis | Threat Detection | Incident Response (IR)
