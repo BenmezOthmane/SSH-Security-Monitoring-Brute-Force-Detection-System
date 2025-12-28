@@ -1,8 +1,5 @@
 # SSH Security Monitoring & Brute‑Force Detection System
 
-[![License: MIT](https://img.shields.io/github/license/BenmezOthmane/SSH-Security-Monitoring-Brute-Force-Detection-System)](LICENSE)
-
-
 ## Project Overview
 This project implements a comprehensive **Security Operations Center (SOC)** environment designed to monitor, detect, and analyze SSH Brute-Force attacks in real-time. By leveraging the **ELK Stack**, I transformed raw system logs into an actionable security intelligence platform.
 
@@ -89,6 +86,9 @@ I developed a structured protocol for handling these high-severity alerts:
 🔹 Integrate Wazuh (HIDS)
 🔹 Add Suricata (NIDS)
 🔹 Case management with TheHive
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 **Author:** [Othmane Benmezian]
