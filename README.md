@@ -1,78 +1,57 @@
-# SSH Security Monitoring & Brute-Force Detection System (ELK Stack)
+## SSH Security Monitoring & Brute-Force Detection (ELK Stack)
 
 ## Project Overview
-This project demonstrates a real-time Security Operations Center (SOC) solution for monitoring and analyzing SSH authentication logs. By utilizing the **ELK Stack** (Elasticsearch, Logstash, Kibana), I transformed raw system logs into an interactive security dashboard to detect and investigate Brute-Force attack patterns.
+This project implements a comprehensive **Security Operations Center (SOC)** environment designed to monitor, detect, and analyze SSH Brute-Force attacks in real-time. By leveraging the **ELK Stack**, I transformed raw system logs into an actionable security intelligence platform.
 
-## System Architecture
-The system follows a standard data pipeline for security logging:
-1. **Data Collection:** Logs are gathered from `/var/log/auth.log` on a Victim Linux server.
-2. **Data Shipper:** **Filebeat** monitors the log files and ships them to Logstash.
-3. **Data Processing:** **Logstash** uses custom **Grok filters** to parse the raw text into structured fields.
-4. **Storage & Indexing:** **Elasticsearch** stores the processed logs for high-speed searching.
-5. **Visualization:** **Kibana** provides the final analytical dashboard.
+## System Architecture (Secure Pipeline)
+The pipeline is fully secured using **SSL/TLS encryption** to ensure data integrity.
 
-> **Architecture Diagram:**
-> ![Architecture Diagram](Images/ELK-diagram.png)
+![Architecture Diagram](Images/Architecture diagram.png)
 
-## 🛡️ Detection Capabilities & Troubleshooting
-Building a SOC isn't just about connecting tools; it's about solving data gaps. Below are the key technical milestones achieved:
+1.  **Data Source:** Linux Server logs gathered from `/var/log/auth.log`.
+2.  **Secure Shipping:** **Filebeat** ships logs via **SSL/TLS** to Logstash.
+3.  **Processing:** **Logstash** normalizes data using custom **Grok filters**.
+4.  **Storage:** **Elasticsearch** indexing secured with **API Key Authentication**.
+5.  **Visualization:** **Kibana** provides real-time security analytics and dashboards.
 
-### 1. Data Validation (The 568 Logs Milestone)
-Before creating rules, I validated the data ingestion in Kibana **Discover**. This ensured that the 568 logs from the Kali Linux attack were correctly indexed with fields like `event.outcome`.
-![Kibana Discover Validation](Images/image_6356cb.png)
+## 🚨 SIEM Detection Rule Configuration
+I configured a custom detection rule to identify automated brute-force patterns:
 
-### 2. Fixing Index Pattern Mismatches
-**Challenge:** The detection engine couldn't find the logs due to static naming.
-**Solution:** I implemented a Wildcard Index Pattern `ssh-security-*`. This allowed the SIEM to dynamically monitor all current and future logs.
-![Index Pattern Wildcard Fix](Images/image_6365af.png)
+| Rule Attribute | Configuration | Technical Justification |
+| :--- | :--- | :--- |
+| **Detection Query** | `event.outcome : "failure"` | Specifically targets failed authentication attempts. |
+| **Threshold** | 5+ Failures | Filters out accidental typos from automated attacks. |
+| **Time Window** | 5 Minutes | Captures high-frequency tools like Hydra or Medusa. |
+| **Severity** | **High** | Critical service (SSH) targeting; poses a severe security risk. |
 
-### 3. Overcoming Time-Drift with Backfill
-**Challenge:** Alerts weren't showing because the attack happened in the past (Dec 24).
-**Solution:** I configured the **Look-back time** to **4 Days**. This "backfilled" the detection engine, forcing it to analyze historical data and generate the missing alerts.
-![SIEM Look-back Configuration](Images/image_634bc4.png)
+## 📊 Security Analytics & Intelligence
+The custom dashboard provides deep visibility into the attack surface:
 
-## 🚨 Final Security Alerts Dashboard
-The result is a fully functional SIEM rule that monitors SSH traffic. When a brute-force attack is detected, the system triggers a **High Severity Alert**.
+### 1. Attack Timeline (Sequence of Events)
+This heatmap visualizes the **Timeline per Attacking IP**, highlighting the exact moments of peak intensity.
+![Timeline Heatmap](Images/Timeline per Attacking IP.png)
+*Red blocks indicate peak attack frequency (≥23.2 attempts) from `192.168.192.5`.*
 
-- **Detection Query:** `event.outcome : "failure"`
-- **Rule Status:** `Succeeded` (Real-time Monitoring Active)
-
-![Final Security Alerts Table](/Alerts Summary.png)
-
-### 🚨 Alert Intelligence & Deep Dive
-The system doesn't just detect; it analyzes. Below is the breakdown of the 135 high-severity alerts generated:
-| **Alerts Count** | **135 Alerts** | ![Alert Count](Images/Alerts Summary) |
-
+### 2. Alert Intelligence Breakdown
 | Metric | Visual Evidence | Key Insight |
 | :--- | :--- | :--- |
-| **Attacker IP** | ![Source IP](Images/source.ip) | Targeted from `192.168.192.5` (52.9%) |
-| **Targeted User** | ![User Name](Images/user.name) | High focus on `fakeuser` account |
-| **Victim Host** | ![Host Name](Images/host.name.png) | 100% of attempts targeted the `kali` server |
+| **Total Alerts** | 135 High Severity | 100% of attacks targeted the `kali` server. |
+| **Source IP** | ![Source IP](Images/source.ip.png) | 52.9% of traffic originated from `192.168.192.5`. |
+| **Target User** | ![User Name](Images/user.name.png) | Targeted attempts were identified against the `fakeuser` account. |
 
-### 🧠 Detection Logic & Rule Configuration
-To minimize false positives while maintaining high security, the **SSH Brute Force Detection** rule was configured with the following parameters:
+## 🛡️ Incident Response (IR) Workflow
+I developed a structured protocol for handling these high-severity alerts:
+1.  **Identify source IP:** Extract attacker details from the dashboard.
+2.  **Check alert timeline:** Analyze frequency via the Timeline view.
+3.  **Verify number of failed attempts:** Confirm if it exceeds the security threshold.
+4.  **Check if attack is ongoing:** Determine the current status of the threat.
+5.  **Decision:** Execute containment (Block IP) or continued monitoring.
+6.  **Document incident:** Complete the forensic record for future mitigation.
 
-| Rule Attribute | Value | Technical Justification |
-| :--- | :--- | :--- |
-| **Threshold** | 5+ Failures | To filter out accidental typos and legitimate login mistakes from actual brute-force attacks. |
-| **Time Window** | 5 Minutes | Designed to capture high-frequency, automated login attempts typical of tools like Hydra or Medusa. |
-| **Severity** | **High** | SSH is a critical entry point; repeated unauthorized access attempts on a host like `kali` pose a severe risk. |
-
-> **Operational Note:** With these settings, the system successfully identified and grouped the attack into **135 distinct alerts**, providing a clear timeline of the incident.
-
-## Key Features & Analytics
-The dashboard is designed to answer critical security questions:
-* **Who is the Attacker?** (Top Source IPs)
-* **When did the attack happen?** (Failed Logins Over Time)
-* **What is the attack pattern?** (Advanced Heatmap Timeline)
-* **Was the system breached?** (Success vs. Failure Ratio)
-
-## How to Use
-1. Clone this repository.
-2. Install the ELK Stack (Docker or Manual).
-3. Copy the `logstash.conf` file to your Logstash configuration directory.
-4. Import the provided Kibana Dashboard (NDJSON).
-5. Start monitoring your SSH logs in real-time!
+## 🚀 How to Replicate
+1.  **Clone the Repo:** `git clone https://github.com/BenmezOthmane/SSH-Security-Monitoring-Brute-Force-Detection-System.git`
+2.  **Configuration:** Apply the provided `filebeat.yml` and `logstash.conf`.
+3.  **Import Dashboard:** Use `export.ndjson` in Kibana's Saved Objects.
 
 ## Future Work
 🔹Add SOAR automation (IP blocking)
