@@ -14,6 +14,22 @@ The pipeline is fully secured using **SSL/TLS encryption** to ensure data integr
 4.  **Storage:** **Elasticsearch** indexing secured with **API Key Authentication**.
 5.  **Visualization:** **Kibana** provides real-time security analytics and dashboards.
 
+
+##  Configuration & Implementation Details
+This project includes all necessary configuration files to replicate the secure logging pipeline:
+
+### 1. Data Ingestion (Filebeat & Logstash)
+* **[`filebeat.yml`](filebeat.yml)**: Configured to harvest `/var/log/auth.log` and transmit data securely via **SSL/TLS**.
+* **[`logstash.conf`](logstash.conf)**: Contains custom **Grok patterns** to parse raw SSH logs into structured fields like `event.outcome` and `source.ip`.
+
+### 2. SIEM Visualization (Kibana Dashboard)
+* **[`export.ndjson`](export.ndjson)**: A complete export of the security dashboard.
+* **Included Visuals**: High-severity alert tables, user-targeting charts, and the **Timeline per Attacking IP** heatmap.
+
+### 3. Incident Response Protocol
+* **[`Incident_Response.md`](Incident_Response.md)**: A structured 6-step playbook providing a systematic approach for responding to SSH brute-force alerts.
+
+  
 ##  SIEM Detection Rule Configuration
 I configured a custom detection rule to identify automated brute-force patterns:
 
@@ -23,6 +39,7 @@ I configured a custom detection rule to identify automated brute-force patterns:
 | **Threshold** | 5+ Failures | Filters out accidental typos from automated attacks. |
 | **Time Window** | 5 Minutes | Captures high-frequency tools like Hydra or Medusa. |
 | **Severity** | **High** | Critical service (SSH) targeting; poses a severe security risk. |
+
 
 ##  Security Analytics & Intelligence
 The custom dashboard provides deep visibility into the attack surface:
@@ -39,6 +56,7 @@ This heatmap visualizes the **Timeline per Attacking IP**, highlighting the exac
 | **Source IP** | ![Source IP](Images/source.ip.png) | 52.9% of traffic originated from `192.168.192.5`. |
 | **Target User** | ![User Name](Images/user.name.png) | Targeted attempts were identified against the `fakeuser` account. |
 
+
 ##  Incident Response (IR) Workflow
 I developed a structured protocol for handling these high-severity alerts:
 1.  **Identify source IP:** Extract attacker details from the dashboard.
@@ -48,10 +66,12 @@ I developed a structured protocol for handling these high-severity alerts:
 5.  **Decision:** Execute containment (Block IP) or continued monitoring.
 6.  **Document incident:** Complete the forensic record for future mitigation.
 
+
 ##  How to Replicate
 1.  **Clone the Repo:** `git clone https://github.com/BenmezOthmane/SSH-Security-Monitoring-Brute-Force-Detection-System.git`
 2.  **Configuration:** Apply the provided `filebeat.yml` and `logstash.conf`.
 3.  **Import Dashboard:** Use `export.ndjson` in Kibana's Saved Objects.
+
 
 ## Future Work
 🔹Add SOAR automation (IP blocking)
