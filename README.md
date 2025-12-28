@@ -1,4 +1,5 @@
 ## SSH Security Monitoring & Brute-Force Detection (ELK Stack)
+[![License: MIT](https://img.shields.io/github/license/BenmezOthmane/SSH-Security-Monitoring-Brute-Force-Detection-System)](LICENSE)
 
 ## Project Overview
 This project implements a comprehensive **Security Operations Center (SOC)** environment designed to monitor, detect, and analyze SSH Brute-Force attacks in real-time. By leveraging the **ELK Stack**, I transformed raw system logs into an actionable security intelligence platform.
@@ -71,6 +72,14 @@ I developed a structured protocol for handling these high-severity alerts:
 1.  **Clone the Repo:** `git clone https://github.com/BenmezOthmane/SSH-Security-Monitoring-Brute-Force-Detection-System.git`
 2.  **Configuration:** Apply the provided `filebeat.yml` and `logstash.conf`.
 3.  **Import Dashboard:** Use `export.ndjson` in Kibana's Saved Objects.
+
+
+##  Prerequisites
+- Elasticsearch 8.x
+- Kibana 8.x
+- Logstash 8.x
+- Filebeat 8.x
+- (Docker optional)
 
 
 ## Future Work
