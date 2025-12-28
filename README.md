@@ -14,7 +14,7 @@ The pipeline is fully secured using **SSL/TLS encryption** to ensure data integr
 4.  **Storage:** **Elasticsearch** indexing secured with **API Key Authentication**.
 5.  **Visualization:** **Kibana** provides real-time security analytics and dashboards.
 
-## 🚨 SIEM Detection Rule Configuration
+##  SIEM Detection Rule Configuration
 I configured a custom detection rule to identify automated brute-force patterns:
 
 | Rule Attribute | Configuration | Technical Justification |
@@ -24,7 +24,7 @@ I configured a custom detection rule to identify automated brute-force patterns:
 | **Time Window** | 5 Minutes | Captures high-frequency tools like Hydra or Medusa. |
 | **Severity** | **High** | Critical service (SSH) targeting; poses a severe security risk. |
 
-## 📊 Security Analytics & Intelligence
+##  Security Analytics & Intelligence
 The custom dashboard provides deep visibility into the attack surface:
 
 ### 1. Attack Timeline (Sequence of Events)
@@ -39,7 +39,7 @@ This heatmap visualizes the **Timeline per Attacking IP**, highlighting the exac
 | **Source IP** | ![Source IP](Images/source.ip.png) | 52.9% of traffic originated from `192.168.192.5`. |
 | **Target User** | ![User Name](Images/user.name.png) | Targeted attempts were identified against the `fakeuser` account. |
 
-## 🛡️ Incident Response (IR) Workflow
+##  Incident Response (IR) Workflow
 I developed a structured protocol for handling these high-severity alerts:
 1.  **Identify source IP:** Extract attacker details from the dashboard.
 2.  **Check alert timeline:** Analyze frequency via the Timeline view.
@@ -48,7 +48,7 @@ I developed a structured protocol for handling these high-severity alerts:
 5.  **Decision:** Execute containment (Block IP) or continued monitoring.
 6.  **Document incident:** Complete the forensic record for future mitigation.
 
-## 🚀 How to Replicate
+##  How to Replicate
 1.  **Clone the Repo:** `git clone https://github.com/BenmezOthmane/SSH-Security-Monitoring-Brute-Force-Detection-System.git`
 2.  **Configuration:** Apply the provided `filebeat.yml` and `logstash.conf`.
 3.  **Import Dashboard:** Use `export.ndjson` in Kibana's Saved Objects.
@@ -61,4 +61,4 @@ I developed a structured protocol for handling these high-severity alerts:
 
 ---
 **Author:** [Othmane Benmezian]
-**Focus:** Cybersecurity | SIEM | Threat Hunting
+Focus: Cybersecurity & SOC Operations 🛠️ Skills Demonstrated: SIEM (ELK Stack) | Log Analysis | Threat Detection | Incident Response (IR)
